@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PARADIDDLE MAP EDITOR WEB EPIC EDITION!!!! :DDD</title>
+        <link href="style.css" rel="stylesheet">
+        <script src="libs/wavesurfer/wavesurfer.min.js"></script>
+        <script src="libs/wavesurfer/spectrogram.min.js"></script>
+        <script src="libs/Stuk-jszip-643714a/dist/jszip.min.js"></script> <!-- zip lib https://github.com/Stuk/jszip -->
+    </head>
+    <body>
+        <input onchange="mapFileSelected()" type="file" style="display: none;" id="mapFileInput" accept=".rlrr, .zip">
+        <input onchange="loadRLRR(this.files[0])" type="file" style="display: none;" id="newMapFileInput" accept=".rlrr">
+        <input onchange="songFileSelected()" type="file" style="display: none;" id="songFileInput" accept="audio">
+        <input onchange="coverFileSelected()" type="file" style="display: none;" id="coverFileInput" accept="image/*">
+        <div id="mainMenu" class="main">
+            <h1>PARADIDDLE MAP EDITOR WEB EPIC EDITION!!!! :DDD</h1>
+            <div class="buttonCont"> 
+                <button onclick="newMap()">Create new map</button>
+                <button onclick="mapFileInput.click()">Load existing map</button>
+            </div>
+        </div>
+        <!-- <div style="display: none;"> 
+            <button onclick="loadMap()">Load map</button>
+            <button onclick="loadSong()">Load song</button>
+        </div> -->
+
+        <div id="editMeta" class="editorMenu" style="display: none;">
+            <div class="buttonCont"> 
+                <!-- title/description/artist/cover/complexity(1-5) -->
+                <label for="titleInput">Title:</label>
+                <input type="text" placeholder="Required" id="titleInputMap">
+                <label for="artistInput">Artist:</label>
+                <input type="text" placeholder="Required" id="artistInputMap" value="">
+                <label for="coverPreview">Cover:</label>
+                <img id="coverPreview" src="" alt="No cover selected" style="background-color: var(--bg-d); justify-content: center; display: flex; width: 200px; max-height: 200px; padding: 8px; margin: 10px;">
+                <button onclick="editCover.click()">Choose image</button>
+                <label for="authorInput">Creator:</label>
+                <input type="text" id="authorInputMap" value="">
+                <label for="complexityInput">Complexity (1-5):</label>
+                <input type="range" id="complexityInputMap" step="1" min="1" max="5">
+                <label for="descriptionInput">Description:</label>
+                <textarea id="descriptionInputMap" value=""></textarea>
+                <button class="disabledButton" id="saveMetaButt" onclick="metaSave()">Save</button>
+            </div>
+        </div>
+
+        <div id="mapEditorCont" style="display: none;">
+            <div class="topBar"> 
+                <div style="left: 0; position: absolute;"> 
+                    <button class="accButton" onclick="saveMap()">Save map</button>
+                    <button onclick="loadSong()">Add track</button>
+                    <button onclick="metaMenu.style.display='flex'">Edit meta</button>
+                    <button onclick="importInstruments()">Import instruments</button>
+                    <button onclick="newMapInput.click()">Load RLRR</button>
+                    <select id="diffSelect" autocomplete="off" onchange="selectDiff()">
+                        <option value="easy">Easy</option>
+                        <option value="normal">Normal</option>
+                        <option value="hard">Hard</option>
+                        <option selected value="expert">Expert</option>
+                    </select>
+                </div>
+                <div style="right: 0; position: absolute;"> 
+                    Scale: <button onclick="scaleDown()" style="width: 32px;">-</button><button onclick="scaleUp()" style="width: 32px;">+</button>
+                </div>
+            </div>
+            <div class="timelineContainer" id="timelineContainer">
+                <div class="instLabelsDiv" id="instLabelsDiv"></div>
+                <div class="bar cursorBar" id="cursorBar"><div class="strzaleczka"></div></div>
+                <div class="timeline" id="timeline"></div>
+                <div class="wavesurferContainer" id="wavesurferContainer"></div>
+            </div>
+            <div class="botBar">
+                <div class="playbackCont">
+                    <div class="speed">
+                        Playback speed: <input oninput="speedChanged()" type="range" min="0.25" max="1.5" step="0.25" id="speedSlider" autocomplete="off"><span id="speedSpan">1x</span><br>
+                    </div>
+                    <div class="pitch">
+                        Preserve pitch: <input onchange="speedChanged()" type="checkbox" id="pitchCheckbox" checked autocomplete="off"><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="utils.js"></script>
+    <script src="app.js"></script>
+</html>
