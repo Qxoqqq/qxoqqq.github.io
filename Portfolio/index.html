@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ŁG - Portfolio</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Stylish singleplayer top-down shooter</h1>
+        <div class="hContainer">
+            <video src="media/pn_start.mp4" autoplay loop muted></video>
+            <video src="media/pn_gameplay.mp4" autoplay loop muted></video>
+            <video src="media/pn_shop.mp4" autoplay loop muted></video>
+        </div>
+        <br>
+        <h1>passwordpassword.online</h1>
+        <div class="hContainer">
+            <img src="media/ppo_login.png">
+            <img src="media/ppo_start.png">
+            <video src="media/ppo_shader.mp4" autoplay loop muted></video>
+            <img src="media/ppo_admin_files.png">
+            <img src="media/ppo_admin_users.png">
+        </div>
+        <br>
+        <h1>Online multiplayer first person shooter with wall penetration mechanics</h1>
+        <div class="hContainer">
+            <video src="media/hs_run.mp4" autoplay loop muted></video>
+            <video src="media/hs_pen.mp4" autoplay loop muted></video>
+            <video src="media/hs_stances.mp4" autoplay loop muted></video>
+            <img src="media/hs_gun.png">
+            <img src="media/hs_map.png">
+            <img src="media/hs_player.png">
+        </div>
+        <br>
+        <h1>ParaWeb</h1>
+        <div class="hContainer">
+            <img src="media/pw_editor.png">
+            <img src="media/pw_menu.png">
+            <video src="media/pw_video.mp4" autoplay loop muted></video>
+        </div>
+        <br>
+        <h1>Other projects</h1>
+        <div class="hContainer">
+            <img src="media/bb_menu.png">
+            <video src="media/bb_gameplay.mp4" autoplay loop muted></video>
+            <img src="media/rb_menu.png">
+            <video src="media/rb_gameplay.mp4" autoplay loop muted></video>
+            <video src="media/rb_puzzle.mp4" autoplay loop muted></video>
+        </div>
+    </body>
+    <script>
+        // https://stackoverflow.com/questions/44923021/unsupported-pseudo-in-viewport
+        var IsInViewport = function(el) {
+            var rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        };
+
+
+        addEventListener("DOMContentLoaded", (e) => {
+            let el = document.querySelector(".hContainer")
+            document.documentElement.style.setProperty("--scrollbarWidth", el.offsetHeight - el.clientHeight + "px")
+
+            let imgs = document.querySelectorAll(".hContainer > *")
+            for (i of imgs) {
+                i.draggable = false
+                i.noselect = true
+            }
+        })
+
+        document.addEventListener("scroll", (e) => {
+            let vids = document.querySelectorAll("video")
+            for (let v of vids) {
+                if (IsInViewport(v)) { v.play() } else { v.pause()}
+            }
+        })
+    </script>
+</html>
