@@ -6,6 +6,7 @@
     </head>
     <body>
         <h1>Stylish singleplayer top-down shooter</h1>
+        <p>Fast-paced, with satisfying reloading and roguelite elements</p>
         <div class="hContainer">
             <video src="media/pn_start.mp4" autoplay loop muted></video>
             <video src="media/pn_gameplay.mp4" autoplay loop muted></video>
@@ -13,6 +14,7 @@
         </div>
         <br>
         <h1>passwordpassword.online</h1>
+        <p>Stylized imageboard-type forum, complete with key-protected admin panel for content/user management</p>
         <div class="hContainer">
             <img src="media/ppo_login.png">
             <img src="media/ppo_start.png">
@@ -21,7 +23,8 @@
             <img src="media/ppo_admin_users.png">
         </div>
         <br>
-        <h1>Online multiplayer first person shooter with wall penetration mechanics</h1>
+        <h1>Online multiplayer first person shooter prototype</h1>
+        <p>Includes well-optimized wall penetration mechanics</p>
         <div class="hContainer">
             <video src="media/hs_run.mp4" autoplay loop muted></video>
             <video src="media/hs_pen.mp4" autoplay loop muted></video>
@@ -32,6 +35,7 @@
         </div>
         <br>
         <h1>ParaWeb</h1>
+        <p>Online editor for VR drumming game Paradiddle</p>
         <div class="hContainer">
             <img src="media/pw_editor.png">
             <img src="media/pw_menu.png">
@@ -39,6 +43,7 @@
         </div>
         <br>
         <h1>Other projects</h1>
+        <p>Itch.io gamejam entries</p>
         <div class="hContainer">
             <img src="media/bb_menu.png">
             <video src="media/bb_gameplay.mp4" autoplay loop muted></video>
@@ -46,6 +51,7 @@
             <video src="media/rb_gameplay.mp4" autoplay loop muted></video>
             <video src="media/rb_puzzle.mp4" autoplay loop muted></video>
         </div>
+        <br>
     </body>
     <script>
         // https://stackoverflow.com/questions/44923021/unsupported-pseudo-in-viewport
@@ -59,6 +65,12 @@
             );
         };
 
+        function checkVids() {
+            let vids = document.querySelectorAll("video")
+            for (let v of vids) {
+                if (IsInViewport(v)) { v.play() } else { v.pause()}
+            }
+        }
 
         addEventListener("DOMContentLoaded", (e) => {
             let el = document.querySelector(".hContainer")
@@ -72,10 +84,11 @@
         })
 
         document.addEventListener("scroll", (e) => {
-            let vids = document.querySelectorAll("video")
-            for (let v of vids) {
-                if (IsInViewport(v)) { v.play() } else { v.pause()}
-            }
+            checkVids()
+        })
+
+        document.addEventListener("mousemove", (e) => {
+            checkVids()
         })
     </script>
 </html>

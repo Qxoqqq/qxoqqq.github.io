@@ -17,6 +17,15 @@ body {
 h1 {
     margin-left: 2vh;
     margin-right: 2vh;
+    margin-bottom: 1vh;
+}
+
+p {
+    font-size: 3vh;
+    padding: 0;
+    margin: 0;
+    margin-left: 2vh;
+    margin-bottom: 2vh;
 }
 
 div.hContainer {
