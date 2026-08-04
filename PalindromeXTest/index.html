@@ -3,6 +3,7 @@
     <head>
         <title>PalindromeX Test interface</title>
         <link rel="stylesheet" href="style.css">
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/pixi.js/8.14.0/pixi.min.js></script>
     </head>
     <body>
         <main class="calendarContainer">
@@ -14,7 +15,16 @@
                 <div class="hoursColumn"></div>
                 <div class="hoursSpacer"></div>
             </div>
-            <div class="calendar">TEST!</div>
+            <div class="calendar">
+                <div class="dayColumns"></div>
+                <canvas id="canvas" class="canvas"></canvas>
+                <div id="infoPopup">
+                    Task<br>
+                    Dates:<br>
+                    Work days:<br>
+                    Hours:
+                </div>
+            </div>
         </main>
         <script src="app.js"></script>
     </body>
