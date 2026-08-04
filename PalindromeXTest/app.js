@@ -188,7 +188,7 @@ function onMouseMove(e) {
 
         let task = tasks[hoveredIndex]
         if (task) {
-            infoPopup.innerHTML = `<b>${task.name}</b><br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
+            infoPopup.innerHTML = `${task.name}<br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
         }
     }
 }
@@ -224,7 +224,7 @@ calendar.addEventListener("wheel", (e) => {
         draw()
         let task = tasks[hoveredIndex]
         if (task) {
-            infoPopup.innerHTML = `<b>${task.name}</b><br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
+            infoPopup.innerHTML = `${task.name}<br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
         }
     }
 })
