@@ -142,7 +142,7 @@ function onMouseMove(e) {
             }
             let weekendCount = 0
             let weekendDate = new Date(newDate)
-            while (weekendDate.getTime() <= task.endDate.getTime()) {
+            while (weekendDate.getTime() < task.endDate.getTime()) {
                 if (isWeekend(weekendDate.getDate(), weekendDate.getMonth())) weekendCount++
                 weekendDate.setDate(weekendDate.getDate() + 1)
             }
@@ -203,8 +203,22 @@ calendar.addEventListener("mousedown", (e) => {
 })
 
 calendar.addEventListener("wheel", (e) => {
-    if (hoveredTask) {
-        tasks[hoveredIndex].hours += -e.deltaY / Math.abs(e.deltaY)
+    let dir = -e.deltaY / Math.abs(e.deltaY)
+    if (grabbedTask) {
+        if (dir > 0) {
+            if (hoveredIndex < tasks.length - 1) {
+                [tasks[hoveredIndex], tasks[hoveredIndex+1]] = [tasks[hoveredIndex+1], tasks[hoveredIndex]];
+                hoveredIndex += 1
+            }
+        } else {
+            if (hoveredIndex > 0) {
+                [tasks[hoveredIndex], tasks[hoveredIndex-1]] = [tasks[hoveredIndex-1], tasks[hoveredIndex]]; 
+                hoveredIndex -= 1
+            }
+        }
+        draw()
+    } else if (hoveredTask) {
+        tasks[hoveredIndex].hours += dir
         tasks[hoveredIndex].hours = Math.max(tasks[hoveredIndex].hours, 1)
         draw()
         let task = tasks[hoveredIndex]
@@ -284,6 +298,7 @@ function draw() {
     taskStacks = {}
     ctx.strokeStyle = "orange"
     ctx.lineWidth = 2
+    strokeArr = []
     for (task of tasks) {
         let startPos = dateToPosition(task.startDate.getDate(), task.startDate.getMonth())
         // let endPos = dateToPosition(task.endDate.getDate(), task.endDate.getMonth()) + dayWidth
@@ -308,11 +323,22 @@ function draw() {
             let rh = (task.hours/task.dayCount) * hourHeight + 0.5
             if (grabbedTask != task.name) {
                 ctx.fillRect(rx, ry, rw, rh)
-                if (prevY != ry || Math.abs(prevX - rx) > dayWidth + 1)
+                if (prevY != ry || Math.abs(prevX - rx) > dayWidth + 1) {
                     ctx.fillStyle = "white"
                     ctx.fillText(task.name, rx + 4, ry + 12)
+                    
+                }
             } 
             if (hoveredTask == task.name) {
+                if (prevY != ry || Math.abs(prevX - rx) > dayWidth + 1) {
+                        strokeArr.push({instruction: "lineTo", x:0, y:rh})
+                        strokeArr.push({instruction: "closePath"})
+                        strokeArr.push({instruction: "beginPath"})
+                        strokeArr.push({instruction: "moveTo", x:rx, y:ry+rh})
+                        strokeArr.push({instruction: "lineTo", x:0, y:-rh})
+                }
+                strokeArr.push({instruction: "lineTo", x:rw, y:0})
+                
                 ctx.setLineDash([])
                 switch (hoveredEdge) {
                     case -1:
@@ -334,8 +360,8 @@ function draw() {
                     default:
                         break
                 }
-                ctx.setLineDash([5, 5])
-                ctx.strokeRect(rx, ry, rw, rh)
+                // ctx.setLineDash([5, 5])
+                // ctx.strokeRect(rx, ry, rw, rh)
             }
 
             let taskData = [task.name, task.hours / task.dayCount, i - (totalDuration - task.dayCount), tasks.indexOf(task)]
@@ -351,4 +377,41 @@ function draw() {
             prevY = ry
         }
     }
+
+    if (hoveredTask) drawHovered(strokeArr)
+}
+
+let strokeArr = []
+
+function drawHovered(strokeArr) {
+    let penX = 0
+    let penY = 0
+    let rh = 0
+    ctx.setLineDash([5, 5])
+    strokeArr.shift(); strokeArr.shift()
+    for (o of strokeArr) {
+        switch(o.instruction) {
+            case "beginPath":
+                ctx.beginPath()
+                break
+            case "closePath":
+                ctx.closePath()
+                ctx.stroke()
+                break
+            case "moveTo":
+                penX = o.x
+                penY = o.y
+                ctx.moveTo(penX, penY)
+                break
+            case "lineTo":
+                if (o.y) rh = o.y
+                penX += o.x
+                penY += o.y
+                ctx.lineTo(penX, penY)
+                break
+        }
+    }
+    ctx.lineTo(penX, penY - rh)
+    ctx.closePath()
+    ctx.stroke()
 }
