@@ -188,7 +188,7 @@ function onMouseMove(e) {
 
         let task = tasks[hoveredIndex]
         if (task) {
-            infoPopup.innerText = `${task.name}\nDates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}\nWork days: ${task.dayCount}\nHours: ${task.hours}`
+            infoPopup.innerHTML = `<b>${task.name}</b><br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
         }
     }
 }
@@ -224,7 +224,7 @@ calendar.addEventListener("wheel", (e) => {
         draw()
         let task = tasks[hoveredIndex]
         if (task) {
-            infoPopup.innerText = `${task.name}\nDates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}\nWork days: ${task.dayCount}\nHours: ${task.hours}`
+            infoPopup.innerHTML = `<b>${task.name}</b><br/>Dates: ${task.startDate.toISOString().split('T')[0]} → ${task.endDate.toISOString().split('T')[0]}<br/>Work days: ${task.dayCount}<br/>Hours: ${task.hours}`
         }
     }
 })
@@ -238,7 +238,7 @@ calendar.addEventListener("mouseup", (e) => {
 })
 
 function randomHex() {
-    return `#${Math.floor(Math.random()*16777215).toString(16)}`
+    return `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`
 }
 
 function dateToPosition(dy, m) {
