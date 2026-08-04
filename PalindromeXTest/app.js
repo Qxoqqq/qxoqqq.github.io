@@ -164,8 +164,9 @@ function onMouseMove(e) {
             while (isWeekend(newDate.getDate(), newDate.getMonth())) {
                 newDate.setDate(newDate.getDate() - 1)
             }
+
             for (let i = 0; i < 2; i++) { // Hmm, how do I fix a bug visible for only one frame? Just run it twice before drawing lol
-                if (task.dayCount + dateDifference(task.endDate, newDate) + 1 > 0) {
+                if (i == 0 || task.dayCount + dateDifference(task.endDate, newDate) + 1 > 0) {
                     task.dayCount += dateDifference(task.endDate, newDate) + 1
                 }
             }
